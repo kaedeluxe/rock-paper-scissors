@@ -8,9 +8,11 @@
 </head>
 
 <body>
-  <button type="button" id="player-rock" onclick="playRound('rock')">Rock</button>
-  <button type="button" id="player-paper" onclick="playRound('paper')">Paper</button>
-  <button type="button" id="player-scissors" onclick="playRound('scissors')">Scissors</button>
+  <div class="play">
+    <h1 class="play__title">Click the button below to play 5 rounds of Rock, Paper, Scissors against a CPU</h1>
+    <button type="button" id="play__button" onclick="playRound()">Play!</button>
+    <p id="play__score">Score: </p>
+  </div>
   <script src="./script.js"></script>
 </body>
 
