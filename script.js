@@ -14,10 +14,9 @@ function getCpuChoice() {
   return cpuChoice;
 }
 
-let countWin = 0,
-  countLose = 0,
-  countDraw = 0,
-i;
+let countWin,
+  countLose,
+  countDraw;
 
 function playRound() {
   let cpuChoice = getCpuChoice(),
@@ -66,5 +65,18 @@ function playRound() {
       alert(`${playerChoice} is not a valid argument, please try again.`)
       break;
   }
-  document.getElementById("play__score").textContent = `Score: ${countWin}`;
+}
+
+function playBestOfFive() {
+  countWin = 0;
+  countLose = 0;
+  countDraw = 0;
+  for (; countWin < 3 && countLose < 3;) {
+    playRound();
+    if (countWin >= 3) {
+      document.getElementById("play__score").textContent = `You won ${countWin} to ${countLose}!`;
+    } else if (countLose >= 3) {
+      document.getElementById("play__score").textContent = `You lost ${countWin} to ${countLose}!`
+    }
+  }
 }
