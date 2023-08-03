@@ -14,30 +14,33 @@ function getCpuChoice() {
   return cpuChoice;
 }
 
-let countWin,
-  countLose,
-  countDraw
-  i;
+let countWin = 0,
+  countLose = 0,
+  countDraw = 0,
+i;
 
 function playRound() {
   let cpuChoice = getCpuChoice(),
-    playerInput = prompt("Enter rock, paper or scissors:"),
+    playerInput = prompt("Enter rock (r), paper (p) or scissors (s):"),
     playerChoice,
     evalChoices,
     result;
-  // playerChoice = playerInput.toLowerCase();
   switch (playerInput) {
     case "r":
     case "R":
       playerChoice = "rock";
+      break;
     case "p":
     case "P":
       playerChoice = "paper";
+      break;
     case "s":
     case "S":
       playerChoice = "scissors";
+      break;
     default:
       playerChoice = playerInput.toLowerCase();
+      break;
   }
   evalChoices = playerChoice + cpuChoice;
   switch (evalChoices) {
@@ -63,4 +66,5 @@ function playRound() {
       alert(`${playerChoice} is not a valid argument, please try again.`)
       break;
   }
+  document.getElementById("play__score").textContent = `Score: ${countWin}`;
 }
