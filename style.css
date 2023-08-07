@@ -57,7 +57,7 @@ h6
 }
 
 /*
-  End Josh's Custom CSS Reset
+  End Josh's Custom CSS Reset"
 */
 
 .play
@@ -80,8 +80,15 @@ h6
   font-size: 20px;
 }
 
+.play-buttons
+{
+  /* display: flex; */
+}
+
 button
 {
+  /* flex: 1; */
+  gap: 50px;
   padding: 10px 25px;
   border: 2px solid #fff;
   border-radius: 5px;

@@ -11,11 +11,32 @@
     <div class="play">
       <h1 class="play__title">Rock, Paper, Scissors</h1>
       <h2 class="play__info">
-        Click the button below to play a best of 5 against the CPU
+        Click the button below to play a round against the CPU
       </h2>
-      <button type="button" id="play__button" onclick="playBestOfFive()">
-        Play!
-      </button>
+      <p id="round-result"></p>
+      <div class="play-buttons">
+        <button
+          type="button"
+          id="play-button__rock"
+          onclick="playRound('rock')"
+        >
+          Rock
+        </button>
+        <button
+          type="button"
+          id="play-button__paper"
+          onclick="playRound('paper')"
+        >
+          Paper
+        </button>
+        <button
+          type="button"
+          id="play-button__scissors"
+          onclick="playRound('scissors')"
+        >
+          Scissors
+        </button>
+      </div>
       <p id="play__score">Score:</p>
     </div>
     <script src="./script.js"></script>
