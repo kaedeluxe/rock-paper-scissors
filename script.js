@@ -1,4 +1,12 @@
-let countWin, countLose, countDraw;
+let btn = document.querySelectorAll(".play-button"),
+  emojiPlayerDoc = document.querySelector("#round-emoji__player"),
+  emojiCpuDoc = document.querySelector("#round-emoji__cpu"),
+  emojiPlayer,
+  emojiCpu,
+  cpuChoice,
+  countWin = 0,
+  countLose = 0,
+  countDraw = 0;
 
 //  Function to get a random choice from rock/paper/scissors
 //    -Currently uses a random number between 0 and 1 and converts that at breakpoints
@@ -6,62 +14,43 @@ let countWin, countLose, countDraw;
 //    -Investigate use of other random functions to allow a more fair chance
 
 function getCpuChoice() {
-  let cpuChoice,
+  let cpuChoiceTemp,
     randNo = Math.random();
   if (randNo < 0.333) {
-    cpuChoice = "rock";
+    cpuChoiceTemp = "rock";
   } else if (randNo >= 0.333 && randNo < 0.666) {
-    cpuChoice = "paper";
+    cpuChoiceTemp = "paper";
   } else {
-    cpuChoice = "scissors";
+    cpuChoiceTemp = "scissors";
   }
-  return cpuChoice;
+  return cpuChoiceTemp;
 }
 
 //  Function to play a round, including taking a shortcut for player input and converting it to a true value
-//    -Investigate splitting into several smaller functions
-function playRound() {
-  let cpuChoice = getCpuChoice(),
-    playerInput = prompt("Enter rock (r), paper (p) or scissors (s):"),
-    playerChoice,
+function playRound(playerChoice) {
+  let cpuChoiceTemp = getCpuChoice(),
     evalChoices,
-    result;
-  switch (playerInput) {
-    case "r":
-    case "R":
-      playerChoice = "rock";
-      break;
-    case "p":
-    case "P":
-      playerChoice = "paper";
-      break;
-    case "s":
-    case "S":
-      playerChoice = "scissors";
-      break;
-    default:
-      playerChoice = playerInput.toLowerCase();
-      break;
-  }
-  evalChoices = playerChoice + cpuChoice;
+    result = document.querySelector("#round__result");
+  evalChoices = playerChoice + cpuChoiceTemp;
+  cpuChoice = cpuChoiceTemp;
   switch (evalChoices) {
     case "rockrock":
     case "paperpaper":
     case "scissorsscissors":
       ++countDraw;
-      alert(`Draw! You both chose ${playerChoice}.`);
+      result.textContent = `Draw! You both chose ${playerChoice}.`;
       break;
     case "rockscissors":
     case "paperrock":
     case "scissorspaper":
       ++countWin;
-      alert(`You win! ${playerChoice} beats ${cpuChoice}.`);
+      result.textContent = `You win! ${playerChoice} beats ${cpuChoiceTemp}.`;
       break;
     case "rockpaper":
     case "paperscissors":
     case "scissorsrock":
       ++countLose;
-      alert(`You lose! ${cpuChoice} beats ${playerChoice}.`);
+      result.textContent = `You lose! ${cpuChoiceTemp} beats ${playerChoice}.`;
       break;
     default:
       alert(`${playerChoice} is not a valid argument, please try again.`);
@@ -69,22 +58,55 @@ function playRound() {
   }
 }
 
+function getPlayerEmoji(emojiPlayerChoice) {
+  if (emojiPlayerChoice === "rock") {
+    emojiPlayer = String.fromCodePoint( 9994 );
+  } else if (emojiPlayerChoice === "paper") {
+    emojiPlayer = String.fromCodePoint( 9995 );
+  } else {
+    emojiPlayer = String.fromCodePoint( 9996 );
+  }
+}
+
+function getCpuEmoji(cpuChoiceTemp) {
+  if (cpuChoiceTemp === "rock") {
+    emojiCpu = String.fromCodePoint( 9994 );
+  } else if (cpuChoiceTemp === "paper") {
+    emojiCpu = String.fromCodePoint( 9995 );
+  } else {
+    emojiCpu = String.fromCodePoint( 9996 );
+  }
+}
+
+btn.forEach((button) => {
+  button.addEventListener("click", () => {
+    playRound(button.id);
+    getPlayerEmoji(button.id);
+    getCpuEmoji(cpuChoice);
+    emojiPlayerDoc.textContent = emojiPlayer;
+    emojiCpuDoc.textContent = emojiCpu;
+    // btn.forEach((button) => {
+    //   button.classList.remove("active");
+    // });
+    // button.classList.add("active");
+  });
+});
 //  Function to play a best of 5 against the CPU
 //    -Loops the playRound() function until either the player or the CPU have won 3 games
 //    -Does not take into account draws, you could potentially draw infinitely and the game would never end
 //    -Not 100% sure why && works in the for loop, I was expecting || but it loops forever that way
 //    -Investigate for loop alternative to &&
-function playBestOfFive() {
-  let scoreContent = document.getElementById("play__score");
-  countWin = 0;
-  countLose = 0;
-  countDraw = 0;
-  for (; countWin < 3 && countLose < 3; ) {
-    playRound();
-    if (countWin >= 3) {
-      scoreContent.textContent = `You won! Final score: ${countWin} to ${countLose}.`;
-    } else if (countLose >= 3) {
-      scoreContent.textContent = `You lost! Final score: ${countWin} to ${countLose}.`;
-    }
-  }
-}
+// function playBestOfFive() {
+//   let scoreContent = document.querySelector("#play__score");
+//   countWin = 0;
+//   countLose = 0;
+//   countDraw = 0;
+//   for (; countWin < 3 && countLose < 3; ) {
+//     playRound();
+//     if (countWin >= 3) {
+//       scoreContent.textContent = `You won! Final score: ${countWin} to ${countLose}.`;
+//     } else if (countLose >= 3) {
+//       scoreContent.textContent = `You lost! Final score: ${countWin} to ${countLose}.`;
+//     }
+//   }
+// }
