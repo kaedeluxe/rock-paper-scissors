@@ -17,11 +17,11 @@ function getCpuChoice() {
   let cpuChoiceTemp,
     randNo = Math.random();
   if (randNo < 0.333) {
-    cpuChoiceTemp = "rock";
+    cpuChoiceTemp = "Rock";
   } else if (randNo >= 0.333 && randNo < 0.666) {
-    cpuChoiceTemp = "paper";
+    cpuChoiceTemp = "Paper";
   } else {
-    cpuChoiceTemp = "scissors";
+    cpuChoiceTemp = "Scissors";
   }
   return cpuChoiceTemp;
 }
@@ -31,26 +31,26 @@ function playRound(playerChoice) {
   let cpuChoiceTemp = getCpuChoice(),
     evalChoices,
     result = document.querySelector("#round__result");
-  evalChoices = playerChoice + cpuChoiceTemp;
+  evalChoices = playerChoice.toLowerCase() + cpuChoiceTemp.toLowerCase();
   cpuChoice = cpuChoiceTemp;
   switch (evalChoices) {
     case "rockrock":
     case "paperpaper":
     case "scissorsscissors":
       ++countDraw;
-      result.textContent = `Draw! You both chose ${playerChoice}.`;
+      result.textContent = `Draw! You both chose ${playerChoice.toLowerCase()}.`;
       break;
     case "rockscissors":
     case "paperrock":
     case "scissorspaper":
       ++countWin;
-      result.textContent = `You win! ${playerChoice} beats ${cpuChoiceTemp}.`;
+      result.textContent = `You win! ${playerChoice} beats ${cpuChoiceTemp.toLowerCase()}.`;
       break;
     case "rockpaper":
     case "paperscissors":
     case "scissorsrock":
       ++countLose;
-      result.textContent = `You lose! ${cpuChoiceTemp} beats ${playerChoice}.`;
+      result.textContent = `You lose! ${cpuChoiceTemp} beats ${playerChoice.toLowerCase()}.`;
       break;
     default:
       alert(`${playerChoice} is not a valid argument, please try again.`);
@@ -59,9 +59,9 @@ function playRound(playerChoice) {
 }
 
 function getPlayerEmoji(emojiPlayerChoice) {
-  if (emojiPlayerChoice === "rock") {
+  if (emojiPlayerChoice === "Rock") {
     emojiPlayer = String.fromCodePoint( 9994 );
-  } else if (emojiPlayerChoice === "paper") {
+  } else if (emojiPlayerChoice === "Paper") {
     emojiPlayer = String.fromCodePoint( 9995 );
   } else {
     emojiPlayer = String.fromCodePoint( 9996 );
@@ -69,9 +69,9 @@ function getPlayerEmoji(emojiPlayerChoice) {
 }
 
 function getCpuEmoji(cpuChoiceTemp) {
-  if (cpuChoiceTemp === "rock") {
+  if (cpuChoiceTemp === "Rock") {
     emojiCpu = String.fromCodePoint( 9994 );
-  } else if (cpuChoiceTemp === "paper") {
+  } else if (cpuChoiceTemp === "Paper") {
     emojiCpu = String.fromCodePoint( 9995 );
   } else {
     emojiCpu = String.fromCodePoint( 9996 );
@@ -80,11 +80,15 @@ function getCpuEmoji(cpuChoiceTemp) {
 
 btn.forEach((button) => {
   button.addEventListener("click", () => {
+    let roundTextPlayer = document.querySelector(".round-text__player"),
+    roundTextCpu = document.querySelector(".round-text__cpu");
     playRound(button.id);
     getPlayerEmoji(button.id);
     getCpuEmoji(cpuChoice);
     emojiPlayerDoc.textContent = emojiPlayer;
     emojiCpuDoc.textContent = emojiCpu;
+    roundTextPlayer.textContent = button.id;
+    roundTextCpu.textContent = cpuChoice;
     // btn.forEach((button) => {
     //   button.classList.remove("active");
     // });

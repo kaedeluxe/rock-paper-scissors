@@ -60,18 +60,59 @@ h6
   End Josh's Custom CSS Reset"
 */
 
+body
+{
+  background: #000;
+}
+
 .play
 {
-  background-image: linear-gradient(45deg,
-      hsl(240deg 100% 20%) 0%,
-      hsl(269deg 100% 35%) 49%,
-      hsl(298deg 100% 50%) 100%);
   color: #fff;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 20px;
+  justify-content: flex-start;
+  gap: 50px;
   padding: 10px 0;
+}
+
+.play__title
+{
+  font-style: italic;
+}
+
+.play__info
+{
+  color: #eee;
+  font-size: 20px;
+}
+
+.round
+{
+  display: flex;
+  min-height: 200px;
+  align-items: center;
+}
+
+.round-entry
+{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 250px;
+  width: 250px;
+}
+
+.round-emoji
+{
+  font-size: 100px;
+}
+
+.vs
+{
+  font-size: 30px;
+  font-weight: bold;
 }
 
 #play__score
@@ -80,15 +121,14 @@ h6
   font-size: 20px;
 }
 
-.play-buttons
+.controls
 {
-  /* display: flex; */
+  display: flex;
+  gap: 20px;
 }
 
-button
+.play-button
 {
-  /* flex: 1; */
-  gap: 50px;
   padding: 10px 25px;
   border: 2px solid #fff;
   border-radius: 5px;
@@ -98,9 +138,10 @@ button
   transition: 500ms;
 }
 
-button:hover
+.active,
+.play-button:hover
 {
   background-color: #fff;
   color: #000;
   transition: 250ms;
-}
+} 
