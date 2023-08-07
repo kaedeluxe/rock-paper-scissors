@@ -60,9 +60,16 @@ h6
   End Josh's Custom CSS Reset"
 */
 
+/* * {
+  border: 1px solid red;
+} */
+
 body
 {
-  background: #000;
+  background-image: url(./stemo2.png);
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
 }
 
 .play
@@ -72,7 +79,7 @@ body
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-  gap: 50px;
+  gap: 30px;
   padding: 10px 0;
 }
 
@@ -87,7 +94,12 @@ body
   font-size: 20px;
 }
 
-.round
+.round {
+  border: 3px solid #fff;
+  border-radius: 20px;
+}
+
+.entries
 {
   display: flex;
   min-height: 200px;
@@ -96,6 +108,9 @@ body
 
 .round-entry
 {
+  margin: 10px;
+  /* border: 2px solid #fff; */
+  border-radius: 10px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -107,6 +122,27 @@ body
 .round-emoji
 {
   font-size: 100px;
+}
+
+#round__result,
+.flavour
+{
+  min-height: 30px;
+  text-align: center;
+  font-weight: bold;
+  padding-top: 5px;
+  background-color: #fff;
+  color: #000;
+}
+
+#round__result
+{
+  border-radius: 0 0 10px 10px;
+}
+
+.flavour
+{
+  border-radius: 10px 10px 0 0;
 }
 
 .vs
@@ -132,10 +168,11 @@ body
   padding: 10px 25px;
   border: 2px solid #fff;
   border-radius: 5px;
-  background-color: #ffffff22;
+  background-color: #ffffff00;
   color: #fff;
   font-weight: bold;
   transition: 500ms;
+  cursor: pointer;
 }
 
 .active,
@@ -145,3 +182,31 @@ body
   color: #000;
   transition: 250ms;
 } 
+
+footer
+{
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100vw;
+  height: 30px;
+  background-color: #fff;
+  border-radius: 10px 10px 0 0;
+  text-align: center;
+}
+
+footer a
+{
+  color: #000;
+  font-size: 12px;
+}
+
+.lose
+{
+  background-color: #ff000022;
+}
+
+.win
+{
+  background-color: #00ff0022;
+}
