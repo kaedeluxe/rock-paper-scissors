@@ -140,9 +140,7 @@ function resetScreen() {
   document.querySelector("#round__result").textContent = "";
   playerBG.classList.remove('lose', 'win');
   cpuBG.classList.remove('lose', 'win');
-  WLD[0] = 0;
-  WLD[1] = 0;
-  WLD[2] = 0;
+  WLD = [0,0,0];
 }
 
   
