@@ -1,13 +1,21 @@
-let scoreContent = document.querySelector("#play__score"),
+const divPlay = document.querySelector('.play'),
+  divBG = document.createElement('div'),
+  divBox = document.createElement('div'),
+  divText = document.createElement('div'),
+  emoji = document.createElement('p'), 
+  text = document.createElement('p'),
+  input = document.createElement('button'),
+  scoreContent = document.querySelector("#play__score"),
   btn = document.querySelectorAll(".play-button"),
   emojiPlayerDoc = document.querySelector("#round-emoji__player"),
-  emojiCpuDoc = document.querySelector("#round-emoji__cpu"),
-  emojiPlayer,
+  playerBG = document.querySelector('.player-bg'),
+  cpuBG = document.querySelector('.cpu-bg'),
+  emojiCpuDoc = document.querySelector("#round-emoji__cpu");
+
+let emojiPlayer,
   emojiCpu,
   cpuChoice,
-  countWin = 0,
-  countLose = 0,
-  countDraw = 0;
+  WLD = [0, 0, 0];
 
 //  Function to get a random choice from rock/paper/scissors
 //    -Currently uses a random number between 0 and 1 and converts that at breakpoints
@@ -37,20 +45,30 @@ function playRound(playerChoice) {
     case "rockrock":              //
     case "paperpaper":            // Draw scenarios
     case "scissorsscissors":      //
-      ++countDraw;
+      ++WLD[2];
       result.textContent = `Draw! You both chose ${playerChoice.toLowerCase()}.`;
+      playerBG.classList.remove('lose', 'win');
+      cpuBG.classList.remove('lose', 'win');
       break;
     case "rockscissors":          //
     case "paperrock":             // Win scenarios
     case "scissorspaper":         //
-      ++countWin;
+      ++WLD[0];
       result.textContent = `You win! ${playerChoice} beats ${cpuChoiceTemp.toLowerCase()}.`;
+      playerBG.classList.add('win');
+      playerBG.classList.remove('lose');
+      cpuBG.classList.add('lose');
+      cpuBG.classList.remove('win');
       break;
     case "rockpaper":             //
     case "paperscissors":         // Lose scenarios
     case "scissorsrock":          //
-      ++countLose;
+      ++WLD[1];
       result.textContent = `You lose! ${cpuChoiceTemp} beats ${playerChoice.toLowerCase()}.`;
+      playerBG.classList.add('lose');
+      playerBG.classList.remove('win');
+      cpuBG.classList.add('win');
+      cpuBG.classList.remove('lose');
       break;
     default:          // Not used, just in case something hecks up
       alert(`${playerChoice} is not a valid argument, please try again.`);
@@ -93,7 +111,7 @@ btn.forEach((button) => {
     emojiCpuDoc.textContent = emojiCpu;
     roundTextPlayer.textContent = button.id;
     roundTextCpu.textContent = cpuChoice;
-    scoreContent.textContent = `Score: ${countWin} to ${countLose}.`;
+    scoreContent.textContent = `Score: ${WLD[0]} to ${WLD[1]}.`;
     evalWins();
   });
 });
@@ -101,42 +119,32 @@ btn.forEach((button) => {
 // Makes the round end when someone reaches 5 wins and resets
 
 function evalWins() {
-  if (countWin >= 5) {
-    text.textContent = `Conglaturation!!! You won ${countWin} to ${countLose}!`;
+  if (WLD[0] >= 5) {
+    text.textContent = `Conglaturation!!! You won ${WLD[0]} to ${WLD[1]}!`;
     emoji.textContent = String.fromCodePoint( 128077 );
-    emojiCpuDoc.textContent = String.fromCodePoint( 10067 );
-    emojiPlayerDoc.textContent = String.fromCodePoint( 10067 );
-    scoreContent.textContent = 'Score:';
-    divBG.classList.toggle('show');
-    document.querySelector(".round-text__cpu").textContent = "";
-    document.querySelector(".round-text__player").textContent = "";
-    document.querySelector("#round__result").textContent = "";
-    countWin = 0;
-    countLose = 0;
-    countDraw = 0;
-  } else if (countLose >= 5) {
-    text.textContent = `Heck! You lost ${countWin} to ${countLose}!`;
+    resetScreen();
+  } else if (WLD[1] >= 5) {
+    text.textContent = `Heck! You lost ${WLD[0]} to ${WLD[1]}!`;
     emoji.textContent = String.fromCodePoint( 128078 );
-    emojiCpuDoc.textContent = String.fromCodePoint( 10067 );
-    emojiPlayerDoc.textContent = String.fromCodePoint( 10067 );
-    scoreContent.textContent = 'Score:';
-    divBG.classList.toggle('show');
-    document.querySelector(".round-text__cpu").textContent = "";
-    document.querySelector(".round-text__player").textContent = "";
-    document.querySelector("#round__result").textContent = "";
-    countWin = 0;
-    countLose = 0;
-    countDraw = 0;
+    resetScreen();
   }
 }
 
-  const divPlay = document.querySelector('.play')
-    divBG = document.createElement('div'),
-    divBox = document.createElement('div'),
-    divText = document.createElement('div'),
-    emoji = document.createElement('p'), 
-    text = document.createElement('p'),
-    input = document.createElement('button');
+function resetScreen() {
+  emojiCpuDoc.textContent = String.fromCodePoint( 10067 );
+  emojiPlayerDoc.textContent = String.fromCodePoint( 10067 );
+  scoreContent.textContent = 'Score:';
+  divBG.classList.toggle('show');
+  document.querySelector(".round-text__cpu").textContent = "";
+  document.querySelector(".round-text__player").textContent = "";
+  document.querySelector("#round__result").textContent = "";
+  playerBG.classList.remove('lose', 'win');
+  cpuBG.classList.remove('lose', 'win');
+  WLD[0] = 0;
+  WLD[1] = 0;
+  WLD[2] = 0;
+}
+
   
   emoji.classList.toggle('round-emoji');
   text.setAttribute('class', 'vs');

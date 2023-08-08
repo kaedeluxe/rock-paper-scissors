@@ -94,7 +94,17 @@ body
   font-size: 20px;
 }
 
+h4 
+{
+  font-style: italic;
+  font-size: 18px;
+  color: #ccc;
+  transform: translateY(-20px);
+  margin-bottom: 0px;
+}
+
 .round {
+  background: #00000066;
   border: 3px solid #fff;
   border-radius: 20px;
 }
@@ -109,7 +119,6 @@ body
 .round-entry
 {
   margin: 10px;
-  /* border: 2px solid #fff; */
   border-radius: 10px;
   display: flex;
   flex-direction: column;
@@ -125,8 +134,7 @@ body
   text-align: center;
 }
 
-#round__result,
-.flavour
+#round__result
 {
   min-height: 30px;
   text-align: center;
@@ -134,15 +142,6 @@ body
   padding-top: 5px;
   background-color: #fff;
   color: #000;
-}
-
-#round__result
-{
-  border-radius: 0 0 10px 10px;
-}
-
-.flavour
-{
   border-radius: 10px 10px 0 0;
 }
 
@@ -169,7 +168,7 @@ body
   padding: 10px 25px;
   border: 2px solid #fff;
   border-radius: 5px;
-  background-color: #ffffff00;
+  background-color: #00000066;
   color: #fff;
   font-weight: bold;
   transition: 500ms;
