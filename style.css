@@ -57,21 +57,99 @@ h6
 }
 
 /*
-  End Josh's Custom CSS Reset
+  End Josh's Custom CSS Reset"
 */
+
+/* * {
+  border: 1px solid red;
+} */
+
+body
+{
+  background-image: url(./stemo2.png);
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+}
 
 .play
 {
-  background-image: linear-gradient(45deg,
-      hsl(240deg 100% 20%) 0%,
-      hsl(269deg 100% 35%) 49%,
-      hsl(298deg 100% 50%) 100%);
   color: #fff;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 20px;
+  justify-content: flex-start;
+  gap: 30px;
   padding: 10px 0;
+}
+
+.play__title
+{
+  font-style: italic;
+}
+
+.play__info
+{
+  color: #eee;
+  font-size: 20px;
+}
+
+.round {
+  border: 3px solid #fff;
+  border-radius: 20px;
+}
+
+.entries
+{
+  display: flex;
+  min-height: 200px;
+  align-items: center;
+}
+
+.round-entry
+{
+  margin: 10px;
+  /* border: 2px solid #fff; */
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 250px;
+  width: 250px;
+}
+
+.round-emoji
+{
+  font-size: 100px;
+  text-align: center;
+}
+
+#round__result,
+.flavour
+{
+  min-height: 30px;
+  text-align: center;
+  font-weight: bold;
+  padding-top: 5px;
+  background-color: #fff;
+  color: #000;
+}
+
+#round__result
+{
+  border-radius: 0 0 10px 10px;
+}
+
+.flavour
+{
+  border-radius: 10px 10px 0 0;
+}
+
+.vs
+{
+  font-size: 30px;
+  font-weight: bold;
 }
 
 #play__score
@@ -80,20 +158,107 @@ h6
   font-size: 20px;
 }
 
-button
+.controls
+{
+  display: flex;
+  gap: 20px;
+}
+
+.play-button
 {
   padding: 10px 25px;
   border: 2px solid #fff;
   border-radius: 5px;
-  background-color: #ffffff22;
+  background-color: #ffffff00;
   color: #fff;
   font-weight: bold;
   transition: 500ms;
+  cursor: pointer;
 }
 
-button:hover
+.active,
+.play-button:hover
 {
   background-color: #fff;
   color: #000;
   transition: 250ms;
+} 
+
+footer
+{
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100vw;
+  height: 30px;
+  background-color: #fff;
+  border-radius: 10px 10px 0 0;
+  text-align: center;
+}
+
+footer a
+{
+  color: #000;
+  font-size: 12px;
+}
+
+.lose
+{
+  background-color: #ff000022;
+}
+
+.win
+{
+  background-color: #00ff0022;
+}
+
+.popupBG
+{
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  background: #0000008e;
+}
+
+.popupBox
+{
+  background: #fff;
+  border-radius: 20px;
+  padding: 20px 100px;
+  transform: translateY(-80px);
+}
+
+.popupContent
+{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+}
+
+.popupBox p
+{
+  color: #000;
+}
+
+.play-button-reverse
+{
+  background: #552079;
+}
+
+.play-button-reverse:hover 
+{
+  background: #8f1bdb;
+  color: #fff;
+}
+
+.show
+{
+  display: flex;
 }

@@ -4,6 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="./style.css" />
+    <script src="./script.js" defer></script>
     <title>Rock Paper Scissors</title>
   </head>
 
@@ -11,13 +12,36 @@
     <div class="play">
       <h1 class="play__title">Rock, Paper, Scissors</h1>
       <h2 class="play__info">
-        Click the button below to play a best of 5 against the CPU
+        Choose a button below to play a round against the CPU
       </h2>
-      <button type="button" id="play__button" onclick="playBestOfFive()">
-        Play!
-      </button>
+      <div class="round">
+        <p class="flavour">さいしょはぐう じゃんけんぽん!</p>
+        <div class="entries">
+        <div class="round-entry">
+          <p id="round-emoji__player" class="round-emoji">&#10067;</p>
+          <p class="round-text round-text__player"></p>
+        </div>
+          <p class="vs">vs.</p>
+        <div class="round-entry">
+          <p id="round-emoji__cpu" class="round-emoji">&#10067;</p>
+          <p class="round-text round-text__cpu"></p>
+        </div>
+        </div>
+        <p id="round__result"></p>
+      </div>
+      <div class="controls">
+        <button type="button" id="Rock" class="play-button">
+          &#9994; Rock
+        </button>
+        <button type="button" id="Paper" class="play-button">
+          &#9995; Paper
+        </button>
+        <button type="button" id="Scissors" class="play-button">
+          &#9996; Scissors
+        </button>
+      </div>
       <p id="play__score">Score:</p>
     </div>
-    <script src="./script.js"></script>
+    <footer><a href="https://github.com/kaedeluxe" target="_blank">Created by Kae &#10084;</a></footer>
   </body>
 </html>
