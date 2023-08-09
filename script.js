@@ -1,88 +1,78 @@
-const divPlay = document.querySelector('.play'),
-  divBG = document.createElement('div'),
-  divBox = document.createElement('div'),
-  divText = document.createElement('div'),
-  emoji = document.createElement('p'), 
-  text = document.createElement('p'),
-  input = document.createElement('button'),
+const divPlay = document.querySelector(".play"),
+  divBG = document.createElement("div"),
+  divBox = document.createElement("div"),
+  divText = document.createElement("div"),
+  emoji = document.createElement("p"),
+  text = document.createElement("p"),
+  input = document.createElement("button"),
   scoreContent = document.querySelector("#play__score"),
   btn = document.querySelectorAll(".play-button"),
   emojiPlayerDoc = document.querySelector("#round-emoji__player"),
-  playerBG = document.querySelector('.player-bg'),
-  cpuBG = document.querySelector('.cpu-bg'),
+  playerBG = document.querySelector(".player-bg"),
+  cpuBG = document.querySelector(".cpu-bg"),
   emojiCpuDoc = document.querySelector("#round-emoji__cpu"),
   emojis = {
-    rock: String.fromCodePoint(0x1F5FF),
-    paper: String.fromCodePoint(0x1F4DC),
+    rock: String.fromCodePoint(0x1f5ff),
+    paper: String.fromCodePoint(0x1f4dc),
     scissors: String.fromCodePoint(0x2702),
     spock: String.fromCodePoint(128406),
     lizard: String.fromCodePoint(129422),
-    variation: String.fromCodePoint(0xFE0F)
-    }
-  RPSPL = [1, 2, 3, 4, 5];  // Initialise in rock paper scissors spock lizard order
+    variation: String.fromCodePoint(0xfe0f),
+    win: String.fromCodePoint(128077),
+    lose: String.fromCodePoint(128078),
+  };
 
-let 
-  
-  cpuChoice,
-  WLD = [0, 0, 0];
+let cpuNum,
+  cpuString,
+  playerNum,
+  playerString,
+  itemChoices = ["Rock", "Paper", "Scissors", "Spock", "Lizard"],
+  WLD = [0, 0, 0]; // Wins[0], Losses[1], Draws[2]
 
-//  Function to get a random choice from rock/paper/scissors
-//    -Currently uses a random number between 0 and 1 and converts that at breakpoints
+// Random number will always be an integer between 1 and maxNum due to Math.floor+1
 
-function getCpuChoice() {
-  let cpuChoiceTemp,
-    randNo = Math.random();
-  if (randNo < 0.333) {
-    cpuChoiceTemp = "Rock";
-  } else if (randNo >= 0.333 && randNo < 0.666) {
-    cpuChoiceTemp = "Paper";
-  } else {
-    cpuChoiceTemp = "Scissors";
-  }
-  return cpuChoiceTemp;
+getRandomNum = (maxNum) => Math.floor(Math.random() * maxNum) + 1;
+
+function findWinner(playerChoice, cpuChoice) {
+
 }
 
-// Plays a round, converts to string and compares 
+function convertText(selectedChoice) {
+  let convertedString;
+  if (typeof selectedChoice === "number") {
+    switch (selectedChoice) {
+      case 1:
+        convertedString = "Rock";
+        break;
+      case 2:
+        convertedString = "Paper";
+        break;
+      case 3:
+        convertedString = "Scissors";
+        break;
+      case 4:
+        convertedString = "Spock";
+        break;
+      case 5:
+        convertedString = "Lizard";
+        break;
+    }
+    return convertedString;
+  }
+}
+
+// Plays a round, converts to string and compares
 
 function playRound(playerChoice) {
-  let cpuChoiceTemp = getCpuChoice(),
-    compareChoiceTemp,
-    result = document.querySelector("#round__result");
-  compareChoiceTemp = playerChoice.toLowerCase() + cpuChoiceTemp.toLowerCase();
-  cpuChoice = cpuChoiceTemp;
-  switch (compareChoiceTemp) {
-    case "rockrock":              //
-    case "paperpaper":            // Draw scenarios
-    case "scissorsscissors":      //
-      ++WLD[2];
-      result.textContent = `Draw! You both chose ${playerChoice.toLowerCase()}.`;
-      playerBG.classList.remove('lose', 'win');
-      cpuBG.classList.remove('lose', 'win');
-      break;
-    case "rockscissors":          //
-    case "paperrock":             // Win scenarios
-    case "scissorspaper":         //
-      ++WLD[0];
-      result.textContent = `You win! ${playerChoice} beats ${cpuChoiceTemp.toLowerCase()}.`;
-      playerBG.classList.add('win');
-      playerBG.classList.remove('lose');
-      cpuBG.classList.add('lose');
-      cpuBG.classList.remove('win');
-      break;
-    case "rockpaper":             //
-    case "paperscissors":         // Lose scenarios
-    case "scissorsrock":          //
-      ++WLD[1];
-      result.textContent = `You lose! ${cpuChoiceTemp} beats ${playerChoice.toLowerCase()}.`;
-      playerBG.classList.add('lose');
-      playerBG.classList.remove('win');
-      cpuBG.classList.add('win');
-      cpuBG.classList.remove('lose');
-      break;
-    default:          // Not used, just in case something hecks up
-      alert(`${playerChoice} is not a valid argument, please try again.`);
-      break;
-  }
+  cpuNum = getRandomNum(5);
+  playerNum = Number(playerChoice);
+  // findWinner(playerNum, cpuNum);
+
+  playerString = itemChoices[playerNum-1];
+  cpuString = itemChoices[cpuNum-1];
+  document.querySelector(
+    "#round__result"
+  ).textContent = `${playerString} | ${cpuString}`;
 }
 
 // Determines the correct emoji to display
@@ -90,7 +80,7 @@ function playRound(playerChoice) {
 function getEmoji(emojiFromVar) {
   switch (emojiFromVar) {
     case "Rock":
-      emojiTemp = emojis.rock; 
+      emojiTemp = emojis.rock;
       break;
     case "Paper":
       emojiTemp = emojis.paper;
@@ -112,13 +102,14 @@ function getEmoji(emojiFromVar) {
 
 btn.forEach((button) => {
   button.addEventListener("click", () => {
+    // while (WLD[0] <= 5 && WLD[1] <= 5) {
     playRound(button.id);
-    emojiPlayerDoc.textContent = getEmoji(button.id);
-    emojiCpuDoc.textContent = getEmoji(cpuChoice);
-    document.querySelector(".round-text__player").textContent = button.id;
-    document.querySelector(".round-text__cpu").textContent = cpuChoice;
-    scoreContent.textContent = `Score: ${WLD[0]} to ${WLD[1]}.`;
-    // evalWins();
+    emojiPlayerDoc.textContent = getEmoji(playerString);
+    emojiCpuDoc.textContent = getEmoji(cpuString);
+    document.querySelector(".round-text__player").textContent = playerString;
+    document.querySelector(".round-text__cpu").textContent = cpuString;
+    // scoreContent.textContent = `Score: ${WLD[0]} to ${WLD[1]}.`;
+    // }// evalWins();
   });
 });
 
@@ -127,38 +118,38 @@ btn.forEach((button) => {
 function evalWins() {
   if (WLD[0] >= 5) {
     text.textContent = `Conglaturation!!! You won ${WLD[0]} to ${WLD[1]}!`;
-    emoji.textContent = String.fromCodePoint( 128077 );
+    emoji.textContent = emojis.win;
     resetScreen();
   } else if (WLD[1] >= 5) {
     text.textContent = `Heck! You lost ${WLD[0]} to ${WLD[1]}!`;
-    emoji.textContent = String.fromCodePoint( 128078 );
+    emoji.textContent = emojis.lose;
     resetScreen();
   }
 }
 
 function resetScreen() {
-  emojiCpuDoc.textContent = String.fromCodePoint( 10067 );
-  emojiPlayerDoc.textContent = String.fromCodePoint( 10067 );
-  scoreContent.textContent = 'Score:';
-  divBG.classList.toggle('show');
+  emojiCpuDoc.textContent = String.fromCodePoint(10067);
+  emojiPlayerDoc.textContent = String.fromCodePoint(10067);
+  scoreContent.textContent = "Score:";
+  divBG.classList.toggle("show");
   document.querySelector(".round-text__cpu").textContent = "";
   document.querySelector(".round-text__player").textContent = "";
   document.querySelector("#round__result").textContent = "";
-  playerBG.classList.remove('lose', 'win');
-  cpuBG.classList.remove('lose', 'win');
-  WLD = [0,0,0];
+  playerBG.classList.remove("lose", "win");
+  cpuBG.classList.remove("lose", "win");
+  WLD = [0, 0, 0];
 }
 
-emoji.classList.toggle('round-emoji');
-text.setAttribute('class', 'vs');
-input.setAttribute('type', 'button');
-input.setAttribute('class', 'play-button play-button-reverse');
+emoji.classList.toggle("round-emoji");
+text.setAttribute("class", "vs");
+input.setAttribute("type", "button");
+input.setAttribute("class", "play-button play-button-reverse");
 input.textContent = "Wow!";
-divText.setAttribute('class', 'popupContent');
-divBG.setAttribute('class', 'popupBG');
-divBox.setAttribute('class', 'popupBox');
-input.addEventListener('click', () => {
-  divBG.classList.toggle('show');
+divText.setAttribute("class", "popupContent");
+divBG.setAttribute("class", "popupBG");
+divBox.setAttribute("class", "popupBox");
+input.addEventListener("click", () => {
+  divBG.classList.toggle("show");
 });
 
 divText.appendChild(emoji);
