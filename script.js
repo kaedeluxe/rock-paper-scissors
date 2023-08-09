@@ -19,7 +19,7 @@ const divPlay = document.querySelector(".play"),
     lizard: String.fromCodePoint(129422),
     variation: String.fromCodePoint(0xfe0f),
     win: String.fromCodePoint(128077),
-    lose: String.fromCodePoint(128078),
+    lose: String.fromCodePoint(128078)
   };
 
 let cpuNum,
@@ -33,32 +33,30 @@ let cpuNum,
 
 getRandomNum = (maxNum) => Math.floor(Math.random() * maxNum) + 1;
 
+// If numbers are the same, draw. If difference is even, smallest wins. If difference is odd, largest wins.
+
 function findWinner(playerChoice, cpuChoice) {
-
-}
-
-function convertText(selectedChoice) {
-  let convertedString;
-  if (typeof selectedChoice === "number") {
-    switch (selectedChoice) {
-      case 1:
-        convertedString = "Rock";
-        break;
-      case 2:
-        convertedString = "Paper";
-        break;
-      case 3:
-        convertedString = "Scissors";
-        break;
-      case 4:
-        convertedString = "Spock";
-        break;
-      case 5:
-        convertedString = "Lizard";
-        break;
-    }
-    return convertedString;
-  }
+  let absoluteDiff;
+  if (playerChoice === cpuChoice) {
+    ++WLD[2];
+  } else {
+  absoluteDiff = (Math.abs(playerChoice - cpuChoice) % 2);
+  switch (absoluteDiff) {
+    case 0: // Smallest number wins
+      if (Math.min(playerChoice, cpuChoice) === playerChoice) {
+        ++WLD[0];
+      } else {
+        ++WLD[1];
+      }
+      break;
+    case 1: // Biggest number wins
+      if (Math.max(playerChoice, cpuChoice) === playerChoice) {
+        ++WLD[0];
+      } else {
+        ++WLD[1];
+      }
+      break;
+  }}
 }
 
 // Plays a round, converts to string and compares
@@ -66,13 +64,13 @@ function convertText(selectedChoice) {
 function playRound(playerChoice) {
   cpuNum = getRandomNum(5);
   playerNum = Number(playerChoice);
-  // findWinner(playerNum, cpuNum);
+  findWinner(playerNum, cpuNum);
 
   playerString = itemChoices[playerNum-1];
   cpuString = itemChoices[cpuNum-1];
   document.querySelector(
     "#round__result"
-  ).textContent = `${playerString} | ${cpuString}`;
+  ).textContent = `W: ${WLD[0]} | L: ${WLD[1]} | D: ${WLD[2]}`;
 }
 
 // Determines the correct emoji to display
