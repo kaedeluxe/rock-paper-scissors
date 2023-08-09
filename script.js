@@ -10,10 +10,19 @@ const divPlay = document.querySelector('.play'),
   emojiPlayerDoc = document.querySelector("#round-emoji__player"),
   playerBG = document.querySelector('.player-bg'),
   cpuBG = document.querySelector('.cpu-bg'),
-  emojiCpuDoc = document.querySelector("#round-emoji__cpu");
+  emojiCpuDoc = document.querySelector("#round-emoji__cpu"),
+  emojis = {
+    rock: String.fromCodePoint(0x1F5FF),
+    paper: String.fromCodePoint(0x1F4DC),
+    scissors: String.fromCodePoint(0x2702),
+    spock: String.fromCodePoint(128406),
+    lizard: String.fromCodePoint(129422),
+    variation: String.fromCodePoint(0xFE0F)
+    }
+  RPSPL = [1, 2, 3, 4, 5];  // Initialise in rock paper scissors spock lizard order
 
-let emojiPlayer,
-  emojiCpu,
+let 
+  
   cpuChoice,
   WLD = [0, 0, 0];
 
@@ -33,15 +42,15 @@ function getCpuChoice() {
   return cpuChoiceTemp;
 }
 
-// Plays a round, converts to string and evals together
+// Plays a round, converts to string and compares 
 
 function playRound(playerChoice) {
   let cpuChoiceTemp = getCpuChoice(),
-    evalChoices,
+    compareChoiceTemp,
     result = document.querySelector("#round__result");
-  evalChoices = playerChoice.toLowerCase() + cpuChoiceTemp.toLowerCase();
+  compareChoiceTemp = playerChoice.toLowerCase() + cpuChoiceTemp.toLowerCase();
   cpuChoice = cpuChoiceTemp;
-  switch (evalChoices) {
+  switch (compareChoiceTemp) {
     case "rockrock":              //
     case "paperpaper":            // Draw scenarios
     case "scissorsscissors":      //
@@ -76,43 +85,40 @@ function playRound(playerChoice) {
   }
 }
 
-// Displays large emoji for the player and the cpu in separate functions
+// Determines the correct emoji to display
 
-function getPlayerEmoji(emojiPlayerChoice) {
-  if (emojiPlayerChoice === "Rock") {
-    emojiPlayer = String.fromCodePoint(9994);
-  } else if (emojiPlayerChoice === "Paper") {
-    emojiPlayer = String.fromCodePoint(9995);
-  } else {
-    emojiPlayer = String.fromCodePoint(9996);
+function getEmoji(emojiFromVar) {
+  switch (emojiFromVar) {
+    case "Rock":
+      emojiTemp = emojis.rock; 
+      break;
+    case "Paper":
+      emojiTemp = emojis.paper;
+      break;
+    case "Scissors":
+      emojiTemp = emojis.scissors + emojis.variation;
+      break;
+    case "Lizard":
+      emojiTemp = emojis.lizard;
+      break;
+    case "Spock":
+      emojiTemp = emojis.spock;
+      break;
   }
-}
-
-function getCpuEmoji(cpuChoiceTemp) {
-  if (cpuChoiceTemp === "Rock") {
-    emojiCpu = String.fromCodePoint(9994);
-  } else if (cpuChoiceTemp === "Paper") {
-    emojiCpu = String.fromCodePoint(9995);
-  } else {
-    emojiCpu = String.fromCodePoint(9996);
-  }
+  return emojiTemp;
 }
 
 // Adds onclick listener to buttons, runs through round code taking in the html button id as a parameter
 
 btn.forEach((button) => {
   button.addEventListener("click", () => {
-    let roundTextPlayer = document.querySelector(".round-text__player"),
-      roundTextCpu = document.querySelector(".round-text__cpu");
     playRound(button.id);
-    getPlayerEmoji(button.id);
-    getCpuEmoji(cpuChoice);
-    emojiPlayerDoc.textContent = emojiPlayer;
-    emojiCpuDoc.textContent = emojiCpu;
-    roundTextPlayer.textContent = button.id;
-    roundTextCpu.textContent = cpuChoice;
+    emojiPlayerDoc.textContent = getEmoji(button.id);
+    emojiCpuDoc.textContent = getEmoji(cpuChoice);
+    document.querySelector(".round-text__player").textContent = button.id;
+    document.querySelector(".round-text__cpu").textContent = cpuChoice;
     scoreContent.textContent = `Score: ${WLD[0]} to ${WLD[1]}.`;
-    evalWins();
+    // evalWins();
   });
 });
 
@@ -143,22 +149,21 @@ function resetScreen() {
   WLD = [0,0,0];
 }
 
-  
-  emoji.classList.toggle('round-emoji');
-  text.setAttribute('class', 'vs');
-  input.setAttribute('type', 'button');
-  input.setAttribute('class', 'play-button play-button-reverse');
-  input.textContent = "Wow!";
-  divText.setAttribute('class', 'popupContent');
-  divBG.setAttribute('class', 'popupBG');
-  divBox.setAttribute('class', 'popupBox');
-  input.addEventListener('click', () => {
-    divBG.classList.toggle('show');
-  });
-  
-  divText.appendChild(emoji);
-  divText.appendChild(text);
-  divText.appendChild(input);
-  divBox.appendChild(divText);
-  divBG.appendChild(divBox);
-  divPlay.appendChild(divBG);
+emoji.classList.toggle('round-emoji');
+text.setAttribute('class', 'vs');
+input.setAttribute('type', 'button');
+input.setAttribute('class', 'play-button play-button-reverse');
+input.textContent = "Wow!";
+divText.setAttribute('class', 'popupContent');
+divBG.setAttribute('class', 'popupBG');
+divBox.setAttribute('class', 'popupBox');
+input.addEventListener('click', () => {
+  divBG.classList.toggle('show');
+});
+
+divText.appendChild(emoji);
+divText.appendChild(text);
+divText.appendChild(input);
+divBox.appendChild(divText);
+divBG.appendChild(divBox);
+divPlay.appendChild(divBG);
