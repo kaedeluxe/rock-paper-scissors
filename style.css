@@ -94,7 +94,8 @@ body
   font-size: 20px;
 }
 
-h4 
+.info,
+.flavour 
 {
   font-style: italic;
   font-size: 18px;

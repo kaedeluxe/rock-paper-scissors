@@ -1,158 +1,159 @@
-const divPlay = document.querySelector(".play"),
-  divBG = document.createElement("div"),
-  divBox = document.createElement("div"),
-  divText = document.createElement("div"),
-  emoji = document.createElement("p"),
-  text = document.createElement("p"),
-  input = document.createElement("button"),
-  scoreContent = document.querySelector("#play__score"),
-  btn = document.querySelectorAll(".play-button"),
-  emojiPlayerDoc = document.querySelector("#round-emoji__player"),
-  playerBG = document.querySelector(".player-bg"),
-  cpuBG = document.querySelector(".cpu-bg"),
-  emojiCpuDoc = document.querySelector("#round-emoji__cpu"),
-  emojis = {
-    rock: String.fromCodePoint(0x1f5ff),
-    paper: String.fromCodePoint(0x1f4dc),
-    scissors: String.fromCodePoint(0x2702),
-    spock: String.fromCodePoint(128406),
-    lizard: String.fromCodePoint(129422),
-    variation: String.fromCodePoint(0xfe0f),
-    win: String.fromCodePoint(128077),
-    lose: String.fromCodePoint(128078)
-  };
+const btnsAll = document.querySelectorAll('.play-button'),
+  query = (queryString) => document.querySelector(queryString),
+  emojiCode = (codePoint) => String.fromCodePoint(codePoint),
+  createEl = (element) => document.createElement(element),
+  divPlay = query('.play'),
+  popupBG = createEl('div'),
+  popupContainer = createEl('div'),
+  popupMain = createEl('div'),
+  popupTitle = createEl('p'),
+  popupText = createEl('p'),
+  popupEmoji = createEl('p'),
+  popupBtn = createEl('button'),
+  itemChoices = [
+    // compareID MUST be in (rock, paper, scissors, spock, lizard) order for the calculation to work
+    { compareID: 1, name: 'Rock', emojiRef: emojiCode(0x1f5ff) },
+    { compareID: 2, name: 'Paper', emojiRef: emojiCode(0x1f4dc) },
+    { compareID: 3, name: 'Scissors', emojiRef: emojiCode(0x2702) },
+    { compareID: 4, name: 'Spock', emojiRef: emojiCode(128406) },
+    { compareID: 5, name: 'Lizard', emojiRef: emojiCode(129422) },
+    { name: 'variation', emojiRef: emojiCode(0xfe0f) },
+    { name: 'win', emojiRef: emojiCode(128077) },
+    { name: 'lose', emojiRef: emojiCode(128078) },
+    { name: 'reset emoji', emojiRef: emojiCode(10067)},
+  ],
+  quotesWin = [
+    'Maybe you should go pro.',
+    "Tbh I'm surprised this even functions.",
+    'Wanna put our minecraft beds together?',
+    'What are the rules again?',
+    "Let's be honest, you just clicked random buttons didn't you.",
+    'Nat 20!',
+    "OwO what's this?",
+  ],
+  quotesLose = [
+    'The rng gods were not with you today my friend.',
+    'When you stare into the abyss, sometimes the abyss stares back.',
+    "Yeah, I don't know the rules either.",
+    'Ah yes the tried and true tactic of "guessing and hoping for the best".',
+    "Don't quit your day job.",
+    "Let's be honest, you just clicked random buttons didn't you.",
+    'Blame the developer.',
+  ];
 
-let cpuNum,
-  cpuString,
-  playerNum,
-  playerString,
-  itemChoices = ["Rock", "Paper", "Scissors", "Spock", "Lizard"],
-  WLD = [0, 0, 0]; // Wins[0], Losses[1], Draws[2]
+let cpuIndex,
+  playerIndex,
+  winText,
+  lossText,
+  result,
+  WLD = [0, 0, 0], // Wins[0], Losses[1], Draws[2]
+  getRandomNum = (maxNum) => Math.floor(Math.random() * maxNum);
 
-// Random number will always be an integer between 1 and maxNum due to Math.floor+1
+popupEmoji.classList.toggle('round-emoji');
+popupText.classList.toggle('flavour');
+popupTitle.setAttribute('class', 'vs');
+popupBtn.setAttribute('type', 'button');
+popupBtn.setAttribute('class', 'play-button play-button-reverse');
+popupBtn.textContent = 'Wow!';
+popupMain.setAttribute('class', 'popupContent');
+popupBG.setAttribute('class', 'popupBG');
+popupContainer.setAttribute('class', 'popupBox');
+popupBtn.addEventListener('click', () => {
+  popupBG.classList.toggle('show');
+});
+popupMain.appendChild(popupEmoji);
+popupMain.appendChild(popupTitle);
+popupMain.appendChild(popupText);
+popupMain.appendChild(popupBtn);
+popupContainer.appendChild(popupMain);
+popupBG.appendChild(popupContainer);
+divPlay.appendChild(popupBG);
 
-getRandomNum = (maxNum) => Math.floor(Math.random() * maxNum) + 1;
-
-// If numbers are the same, draw. If difference is even, smallest wins. If difference is odd, largest wins.
-
-function findWinner(playerChoice, cpuChoice) {
+function findWinner(playerInput, cpuInput) {
   let absoluteDiff;
-  if (playerChoice === cpuChoice) {
+  if (playerInput === cpuInput) {
     ++WLD[2];
   } else {
-  absoluteDiff = (Math.abs(playerChoice - cpuChoice) % 2);
-  switch (absoluteDiff) {
-    case 0: // Smallest number wins
-      if (Math.min(playerChoice, cpuChoice) === playerChoice) {
-        ++WLD[0];
-      } else {
-        ++WLD[1];
-      }
-      break;
-    case 1: // Biggest number wins
-      if (Math.max(playerChoice, cpuChoice) === playerChoice) {
-        ++WLD[0];
-      } else {
-        ++WLD[1];
-      }
-      break;
-  }}
-}
-
-// Plays a round, converts to string and compares
-
-function playRound(playerChoice) {
-  cpuNum = getRandomNum(5);
-  playerNum = Number(playerChoice);
-  findWinner(playerNum, cpuNum);
-
-  playerString = itemChoices[playerNum-1];
-  cpuString = itemChoices[cpuNum-1];
-  document.querySelector(
-    "#round__result"
-  ).textContent = `W: ${WLD[0]} | L: ${WLD[1]} | D: ${WLD[2]}`;
-}
-
-// Determines the correct emoji to display
-
-function getEmoji(emojiFromVar) {
-  switch (emojiFromVar) {
-    case "Rock":
-      emojiTemp = emojis.rock;
-      break;
-    case "Paper":
-      emojiTemp = emojis.paper;
-      break;
-    case "Scissors":
-      emojiTemp = emojis.scissors + emojis.variation;
-      break;
-    case "Lizard":
-      emojiTemp = emojis.lizard;
-      break;
-    case "Spock":
-      emojiTemp = emojis.spock;
-      break;
+    absoluteDiff = Math.abs(playerInput - cpuInput) % 2;
+    switch (absoluteDiff) {
+      case 0: // Even difference: smallest number wins
+        if (Math.min(playerInput, cpuInput) === playerInput) {
+          ++WLD[0];
+        } else {
+          ++WLD[1];
+        }
+        break;
+      case 1: // Odd difference: biggest number wins
+        if (Math.max(playerInput, cpuInput) === playerInput) {
+          ++WLD[0];
+        } else {
+          ++WLD[1];
+        }
+        break;
+    }
   }
-  return emojiTemp;
-}
+};
 
-// Adds onclick listener to buttons, runs through round code taking in the html button id as a parameter
+function playRound(buttonID) {
+  if (WLD[0] < 5 && WLD[1] < 5) {
+    cpuIndex = getRandomNum(5);
+    playerIndex = Number(buttonID);
+    findWinner(
+      itemChoices[playerIndex].compareID,
+      itemChoices[cpuIndex].compareID
+    );
+  }
+};
 
-btn.forEach((button) => {
-  button.addEventListener("click", () => {
-    // while (WLD[0] <= 5 && WLD[1] <= 5) {
-    playRound(button.id);
-    emojiPlayerDoc.textContent = getEmoji(playerString);
-    emojiCpuDoc.textContent = getEmoji(cpuString);
-    document.querySelector(".round-text__player").textContent = playerString;
-    document.querySelector(".round-text__cpu").textContent = cpuString;
-    // scoreContent.textContent = `Score: ${WLD[0]} to ${WLD[1]}.`;
-    // }// evalWins();
+function displayResult() {
+  query('#round-emoji__player').textContent =
+    itemChoices[playerIndex].emojiRef + itemChoices[5].emojiRef;
+  query('#round-emoji__cpu').textContent =
+    itemChoices[cpuIndex].emojiRef + itemChoices[5].emojiRef;
+  query('#round-text__player').textContent = itemChoices[playerIndex].name;
+  query('#round-text__cpu').textContent = itemChoices[cpuIndex].name;
+  winText = WLD[0] === 1 ? 'win' : 'wins';
+  lossText = WLD[1] === 1 ? 'loss' : 'losses';
+  query(
+    '#play__score'
+  ).textContent = `Score: ${WLD[0]} ${winText} | ${WLD[1]} ${lossText}.`;
+};
+
+function displayEndGame() {
+  let flavourText,
+    showEmoji;
+  if (WLD[0] >= 5 || WLD[1] >= 5) {
+    popupBG.classList.toggle('show');
+    if (WLD[0] >= 5) {
+      result = `You won ${WLD[0]} to ${WLD[1]}.`;
+      flavourText = quotesWin[getRandomNum(quotesWin.length)];
+      showEmoji = itemChoices[6].emojiRef;
+    } else if (WLD[1] >= 5) {
+      result = `You lost ${WLD[0]} to ${WLD[1]}.`;
+      flavourText = quotesLose[getRandomNum(quotesLose.length)];
+      showEmoji = itemChoices[7].emojiRef;
+    };
+    popupTitle.textContent = result;
+    popupText.textContent = flavourText;
+    popupEmoji.textContent = showEmoji;
+    resetScreen();
+  };
+};
+
+btnsAll.forEach((button) => {
+  button.addEventListener('click', () => {
+    playRound(button.getAttribute('data-identifier'));
+    displayResult();
+    displayEndGame();
   });
 });
 
-// Makes the round end when someone reaches 5 wins and resets
-
-function evalWins() {
-  if (WLD[0] >= 5) {
-    text.textContent = `Conglaturation!!! You won ${WLD[0]} to ${WLD[1]}!`;
-    emoji.textContent = emojis.win;
-    resetScreen();
-  } else if (WLD[1] >= 5) {
-    text.textContent = `Heck! You lost ${WLD[0]} to ${WLD[1]}!`;
-    emoji.textContent = emojis.lose;
-    resetScreen();
-  }
-}
-
 function resetScreen() {
-  emojiCpuDoc.textContent = String.fromCodePoint(10067);
-  emojiPlayerDoc.textContent = String.fromCodePoint(10067);
-  scoreContent.textContent = "Score:";
-  divBG.classList.toggle("show");
-  document.querySelector(".round-text__cpu").textContent = "";
-  document.querySelector(".round-text__player").textContent = "";
-  document.querySelector("#round__result").textContent = "";
-  playerBG.classList.remove("lose", "win");
-  cpuBG.classList.remove("lose", "win");
+  query('#round-emoji__player').textContent = itemChoices[8].emojiRef;
+  query('#round-emoji__cpu').textContent = itemChoices[8].emojiRef;
+  query('#play__score').textContent = 'Score:';
+  query('#round-text__cpu').textContent = '';
+  query('#round-text__player').textContent = '';
   WLD = [0, 0, 0];
-}
+};
 
-emoji.classList.toggle("round-emoji");
-text.setAttribute("class", "vs");
-input.setAttribute("type", "button");
-input.setAttribute("class", "play-button play-button-reverse");
-input.textContent = "Wow!";
-divText.setAttribute("class", "popupContent");
-divBG.setAttribute("class", "popupBG");
-divBox.setAttribute("class", "popupBox");
-input.addEventListener("click", () => {
-  divBG.classList.toggle("show");
-});
-
-divText.appendChild(emoji);
-divText.appendChild(text);
-divText.appendChild(input);
-divBox.appendChild(divText);
-divBG.appendChild(divBox);
-divPlay.appendChild(divBG);
