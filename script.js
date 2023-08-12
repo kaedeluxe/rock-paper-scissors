@@ -21,24 +21,6 @@ const btnsAll = document.querySelectorAll('.play-button'),
     { name: 'win', emojiRef: emojiCode(128077) },
     { name: 'lose', emojiRef: emojiCode(128078) },
     { name: 'reset emoji', emojiRef: emojiCode(10067)},
-  ],
-  quotesWin = [
-    'Maybe you should go pro.',
-    "Tbh I'm surprised this even functions.",
-    'Wanna put our minecraft beds together?',
-    'What are the rules again?',
-    "Let's be honest, you just clicked random buttons didn't you.",
-    'Nat 20!',
-    "OwO what's this?",
-  ],
-  quotesLose = [
-    'The rng gods were not with you today my friend.',
-    'When you stare into the abyss, sometimes the abyss stares back.',
-    "Yeah, I don't know the rules either.",
-    'Ah yes the tried and true tactic of "guessing and hoping for the best".',
-    "Don't quit your day job.",
-    "Let's be honest, you just clicked random buttons didn't you.",
-    'Blame the developer.',
   ];
 
 let cpuIndex,
@@ -46,8 +28,17 @@ let cpuIndex,
   winText,
   lossText,
   result,
+  winQuote,
+  loseQuote,
   WLD = [0, 0, 0], // Wins[0], Losses[1], Draws[2]
   getRandomNum = (maxNum) => Math.floor(Math.random() * maxNum);
+
+fetch("./quotes.json")
+.then(response => response.json())
+.then(data => {
+  winQuote = data.quotesWin;
+  loseQuote = data.quotesLose;
+});
 
 popupEmoji.classList.toggle('round-emoji');
 popupText.classList.toggle('flavour');
@@ -123,16 +114,16 @@ function displayEndGame() {
   let flavourText,
     showEmoji;
   if (WLD[0] >= 5 || WLD[1] >= 5) {
-    popupBG.classList.toggle('show');
     if (WLD[0] >= 5) {
       result = `You won ${WLD[0]} to ${WLD[1]}.`;
-      flavourText = quotesWin[getRandomNum(quotesWin.length)];
+      flavourText = winQuote[getRandomNum(winQuote.length)]; 
       showEmoji = itemChoices[6].emojiRef;
     } else if (WLD[1] >= 5) {
       result = `You lost ${WLD[0]} to ${WLD[1]}.`;
-      flavourText = quotesLose[getRandomNum(quotesLose.length)];
+      flavourText = loseQuote[getRandomNum(loseQuote.length)]; 
       showEmoji = itemChoices[7].emojiRef;
     };
+    popupBG.classList.toggle('show');
     popupTitle.textContent = result;
     popupText.textContent = flavourText;
     popupEmoji.textContent = showEmoji;

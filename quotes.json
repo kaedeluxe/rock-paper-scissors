@@ -1,0 +1,21 @@
+{
+  "quotesWin": [
+    "Maybe you should go pro.",
+    "Tbh I'm surprised this even functions.",
+    "Wanna put our minecraft beds together?",
+    "What are the rules again?",
+    "Let's be honest, you just clicked random buttons didn't you.",
+    "Nat 20!",
+    "OwO what's this?"
+  ],
+
+  "quotesLose" : [
+    "The rng gods were not with you today my friend.",
+    "When you stare into the abyss, sometimes the abyss stares back.",
+    "Yeah, I don't know the rules either.",
+    "Ah yes the tried and true tactic of 'guessing and hoping for the best'.",
+    "Don't quit your day job.",
+    "Let's be honest, you just clicked random buttons didn't you.",
+    "Blame the developer." 
+  ]
+}
