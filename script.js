@@ -40,12 +40,14 @@ let cpuIndex,
     divScore.classList.add('score-win');
     divScore.classList.remove('score-lose');
     scoreText.textContent = '+1';
+    setTimeout(divScore.classList.remove('show'), 1000);
   },
   awardLose = () => {
     divScore.classList.add('show');
     divScore.classList.add('score-lose');
     divScore.classList.remove('score-win');
     scoreText.textContent = '-1';
+    setTimeout(divScore.classList.remove('show'), 1000);
   };
 
 fetch("./quotes.json")
@@ -59,8 +61,8 @@ popupEmoji.classList.toggle('round-emoji');
 popupText.classList.toggle('flavour');
 popupTitle.setAttribute('class', 'vs');
 popupBtn.setAttribute('type', 'button');
-popupBtn.setAttribute('class', 'play-button');
-popupBtn.textContent = 'Wow!';
+popupBtn.setAttribute('class', 'play-button-popup');
+popupBtn.textContent = 'Thanks!';
 popupMain.setAttribute('class', 'popupContent');
 popupBG.setAttribute('class', 'popupBG');
 popupContainer.setAttribute('class', 'popupBox');
