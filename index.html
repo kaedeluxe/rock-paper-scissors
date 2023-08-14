@@ -10,65 +10,67 @@
   </head>
 
   <body>
-    <div class="play">
-      <h1 class="play__title">Rock, Paper, Scissors</h1>
-      <h2 class="play__info">
-        Choose a button below to play a round against the CPU
-      </h2>
-      <h4 class="info">(First to 5 wins!)</h4>
-      <div class="round">
-        <p id="round__result"></p>
-        <div class="entries">
-          <div class="round-entry player-bg">
-            <p id="round-emoji__player" class="round-emoji">&#10067;</p>
-            <p id="round-text__player" class="round-text"></p>
-          </div>
-          <p class="vs">vs.</p>
-          <div class="round-entry cpu-bg">
-            <p id="round-emoji__cpu" class="round-emoji">&#10067;</p>
-            <p id="round-text__cpu" class="round-text"></p>
+    <div class="bg-img">
+      <div class="play">
+        <h1 class="play__title">Rock, Paper, Scissors</h1>
+        <h2 class="play__info">
+          Choose a button below to play a round against the CPU
+        </h2>
+        <h4 class="info">(First to 5 wins!)</h4>
+        <div class="round">
+          <p id="round__result"></p>
+          <div class="entries">
+            <div class="round-entry player-bg">
+              <p id="round-emoji__player" class="round-emoji">&#10067;</p>
+              <p id="round-text__player" class="round-text"></p>
+            </div>
+            <p class="vs">vs.</p>
+            <div class="round-entry cpu-bg">
+              <p id="round-emoji__cpu" class="round-emoji">&#10067;</p>
+              <p id="round-text__cpu" class="round-text"></p>
+            </div>
           </div>
         </div>
+        <div class="controls">
+          <button type="button" id="Rock" data-identifier="0" class="play-button">
+            &#x1F5FF; Rock
+          </button>
+          <button
+            type="button"
+            id="Paper"
+            data-identifier="1"
+            class="play-button"
+          >
+            &#x1F4DC; Paper
+          </button>
+          <button
+            type="button"
+            id="Scissors"
+            data-identifier="2"
+            class="play-button"
+          >
+            &#x2702;&#xFE0F; Scissors
+            <!--Use &#xFE0F; to signify colour emoji over b&w-->
+          </button>
+          <button
+            type="button"
+            id="Lizard"
+            data-identifier="4"
+            class="play-button"
+          >
+            &#129422; Lizard
+          </button>
+          <button
+            type="button"
+            id="Spock"
+            data-identifier="3"
+            class="play-button"
+          >
+            &#128406; Spock
+          </button>
+        </div>
+        <p id="play__score">Score:</p>
       </div>
-      <div class="controls">
-        <button type="button" id="Rock" data-identifier="0" class="play-button">
-          &#x1F5FF; Rock
-        </button>
-        <button
-          type="button"
-          id="Paper"
-          data-identifier="1"
-          class="play-button"
-        >
-          &#x1F4DC; Paper
-        </button>
-        <button
-          type="button"
-          id="Scissors"
-          data-identifier="2"
-          class="play-button"
-        >
-          &#x2702;&#xFE0F; Scissors
-          <!--Use &#xFE0F; to signify colour emoji over b&w-->
-        </button>
-        <button
-          type="button"
-          id="Lizard"
-          data-identifier="4"
-          class="play-button"
-        >
-          &#129422; Lizard
-        </button>
-        <button
-          type="button"
-          id="Spock"
-          data-identifier="3"
-          class="play-button"
-        >
-          &#128406; Spock
-        </button>
-      </div>
-      <p id="play__score">Score:</p>
     </div>
     <footer>
       <a href="https://github.com/kaedeluxe" target="_blank"

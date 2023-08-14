@@ -3,6 +3,9 @@ const btnsAll = document.querySelectorAll('.play-button'),
   emojiCode = (codePoint) => String.fromCodePoint(codePoint),
   createEl = (element) => document.createElement(element),
   divPlay = query('.play'),
+  divRound = query('.round'),
+  divScore = createEl('div'),
+  scoreText = createEl('p'),
   popupBG = createEl('div'),
   popupContainer = createEl('div'),
   popupMain = createEl('div'),
@@ -31,7 +34,19 @@ let cpuIndex,
   winQuote,
   loseQuote,
   WLD = [0, 0, 0], // Wins[0], Losses[1], Draws[2]
-  getRandomNum = (maxNum) => Math.floor(Math.random() * maxNum);
+  getRandomNum = (maxNum) => Math.floor(Math.random() * maxNum),
+  awardWin = () => {
+    divScore.classList.add('show');
+    divScore.classList.add('score-win');
+    divScore.classList.remove('score-lose');
+    scoreText.textContent = '+1';
+  },
+  awardLose = () => {
+    divScore.classList.add('show');
+    divScore.classList.add('score-lose');
+    divScore.classList.remove('score-win');
+    scoreText.textContent = '-1';
+  };
 
 fetch("./quotes.json")
 .then(response => response.json())
@@ -44,7 +59,7 @@ popupEmoji.classList.toggle('round-emoji');
 popupText.classList.toggle('flavour');
 popupTitle.setAttribute('class', 'vs');
 popupBtn.setAttribute('type', 'button');
-popupBtn.setAttribute('class', 'play-button play-button-reverse');
+popupBtn.setAttribute('class', 'play-button');
 popupBtn.textContent = 'Wow!';
 popupMain.setAttribute('class', 'popupContent');
 popupBG.setAttribute('class', 'popupBG');
@@ -52,6 +67,8 @@ popupContainer.setAttribute('class', 'popupBox');
 popupBtn.addEventListener('click', () => {
   popupBG.classList.toggle('show');
 });
+divScore.classList.toggle('score-bg');
+scoreText.classList.toggle('score-text');
 popupMain.appendChild(popupEmoji);
 popupMain.appendChild(popupTitle);
 popupMain.appendChild(popupText);
@@ -59,6 +76,8 @@ popupMain.appendChild(popupBtn);
 popupContainer.appendChild(popupMain);
 popupBG.appendChild(popupContainer);
 divPlay.appendChild(popupBG);
+divScore.appendChild(scoreText);
+divPlay.appendChild(divScore);
 
 function findWinner(playerInput, cpuInput) {
   let absoluteDiff;
@@ -70,15 +89,19 @@ function findWinner(playerInput, cpuInput) {
       case 0: // Even difference: smallest number wins
         if (Math.min(playerInput, cpuInput) === playerInput) {
           ++WLD[0];
+          awardWin();
         } else {
           ++WLD[1];
+          awardLose();
         }
         break;
       case 1: // Odd difference: biggest number wins
         if (Math.max(playerInput, cpuInput) === playerInput) {
           ++WLD[0];
+          awardWin();
         } else {
           ++WLD[1];
+          awardLose();
         }
         break;
     }

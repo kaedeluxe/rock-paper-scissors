@@ -64,12 +64,10 @@ h6
  /*   border: 1px solid red;  */
  /* }  */
 
-body
+.bg-img
 {
-  background-image: url(./stemo2.png);
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center;
+  background: hsl(300, 30%, 10%);
+  height: 100vh;
 }
 
 .play
@@ -85,12 +83,16 @@ body
 
 .play__title
 {
-  font-style: italic;
+  background: -webkit-linear-gradient(50deg, hsl(285, 80%, 30%), hsl(285, 80%, 50%));
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  padding-top: 20px;
 }
 
 .play__info
 {
-  color: #eee;
+  color: #ddd;
   font-size: 20px;
 }
 
@@ -105,8 +107,9 @@ body
 }
 
 .round {
-  background: #00000066;
-  border: 3px solid #fff;
+  background: -webkit-linear-gradient(90deg, hsl(0, 0%, 10%), hsl(285, 80%, 30%) 90%);
+  /* background: #00000066; */
+  border: 3px solid hsl(285, 80%, 30%); 
   border-radius: 20px;
 }
 
@@ -141,7 +144,8 @@ body
   text-align: center;
   font-weight: bold;
   padding-top: 5px;
-  background-color: #fff;
+  background-color: hsl(285, 80%, 30%); 
+  z-index: -1;
   color: #000;
   border-radius: 10px 10px 0 0;
 }
@@ -167,9 +171,9 @@ body
 .play-button
 {
   padding: 10px 25px;
-  border: 2px solid #fff;
+  border: 2px solid hsl(285, 80%, 30%); 
   border-radius: 5px;
-  background-color: #00000066;
+  background-color: hsl(285, 80%, 30%); 
   color: #fff;
   font-weight: bold;
   transition: 500ms;
@@ -179,8 +183,8 @@ body
 .active,
 .play-button:hover
 {
-  background-color: #fff;
-  color: #000;
+  background-color: hsl(285, 80%, 60%);
+  border: 2px solid hsl(285, 80%, 60%);
   transition: 250ms;
 } 
 
@@ -246,15 +250,30 @@ footer a
 {
   color: #000;
 }
-
-.play-button-reverse
-{
-  background: #552079;
+.score-bg {
+  display: none;
+  border-radius: 100%;
+  width: 120px;
+  height: 120px;
+  position: absolute;
+  background: #555;
+  margin-top: 315px;
+  border: 5px solid #fff;
+  align-items: center;
+  justify-content: center;
 }
 
-.play-button-reverse:hover 
-{
-  background: #8f1bdb;
+.score-win {
+  background: hsl(140, 80%, 30%);
+}
+
+.score-lose {
+  background: hsl(330, 80%, 30%);
+}
+
+.score-text {
+  font-size: 46px;
+  font-weight: bolder;
   color: #fff;
 }
 
@@ -262,3 +281,4 @@ footer a
 {
   display: flex;
 }
+
