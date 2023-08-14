@@ -4,8 +4,6 @@ const btnsAll = document.querySelectorAll('.play-button'),
   createEl = (element) => document.createElement(element),
   divPlay = query('.play'),
   divRound = query('.round'),
-  divScore = createEl('div'),
-  scoreText = createEl('p'),
   popupBG = createEl('div'),
   popupContainer = createEl('div'),
   popupMain = createEl('div'),
@@ -21,8 +19,8 @@ const btnsAll = document.querySelectorAll('.play-button'),
     { compareID: 4, name: 'Spock', emojiRef: emojiCode(128406) },
     { compareID: 5, name: 'Lizard', emojiRef: emojiCode(129422) },
     { name: 'variation', emojiRef: emojiCode(0xfe0f) },
-    { name: 'win', emojiRef: emojiCode(128077) },
-    { name: 'lose', emojiRef: emojiCode(128078) },
+    { name: 'win', emojiRef: emojiCode(0x1f389) },
+    { name: 'lose', emojiRef: emojiCode(0x1f608) },
     { name: 'reset emoji', emojiRef: emojiCode(10067)},
   ];
 
@@ -34,21 +32,7 @@ let cpuIndex,
   winQuote,
   loseQuote,
   WLD = [0, 0, 0], // Wins[0], Losses[1], Draws[2]
-  getRandomNum = (maxNum) => Math.floor(Math.random() * maxNum),
-  awardWin = () => {
-    divScore.classList.add('show');
-    divScore.classList.add('score-win');
-    divScore.classList.remove('score-lose');
-    scoreText.textContent = '+1';
-    setTimeout(divScore.classList.remove('show'), 1000);
-  },
-  awardLose = () => {
-    divScore.classList.add('show');
-    divScore.classList.add('score-lose');
-    divScore.classList.remove('score-win');
-    scoreText.textContent = '-1';
-    setTimeout(divScore.classList.remove('show'), 1000);
-  };
+  getRandomNum = (maxNum) => Math.floor(Math.random() * maxNum);
 
 fetch("./quotes.json")
 .then(response => response.json())
@@ -69,8 +53,6 @@ popupContainer.setAttribute('class', 'popupBox');
 popupBtn.addEventListener('click', () => {
   popupBG.classList.toggle('show');
 });
-divScore.classList.toggle('score-bg');
-scoreText.classList.toggle('score-text');
 popupMain.appendChild(popupEmoji);
 popupMain.appendChild(popupTitle);
 popupMain.appendChild(popupText);
@@ -78,8 +60,6 @@ popupMain.appendChild(popupBtn);
 popupContainer.appendChild(popupMain);
 popupBG.appendChild(popupContainer);
 divPlay.appendChild(popupBG);
-divScore.appendChild(scoreText);
-divPlay.appendChild(divScore);
 
 function findWinner(playerInput, cpuInput) {
   let absoluteDiff;
@@ -91,19 +71,15 @@ function findWinner(playerInput, cpuInput) {
       case 0: // Even difference: smallest number wins
         if (Math.min(playerInput, cpuInput) === playerInput) {
           ++WLD[0];
-          awardWin();
         } else {
           ++WLD[1];
-          awardLose();
         }
         break;
       case 1: // Odd difference: biggest number wins
         if (Math.max(playerInput, cpuInput) === playerInput) {
           ++WLD[0];
-          awardWin();
         } else {
           ++WLD[1];
-          awardLose();
         }
         break;
     }

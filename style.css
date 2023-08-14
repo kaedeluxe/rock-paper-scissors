@@ -291,34 +291,6 @@ footer a {
 .popupBox p {
   color: var(--bg-colour);
 }
-.score-bg {
-  display: none;
-  border-radius: 100%;
-  width: 120px;
-  height: 120px;
-  position: absolute;
-  background: #555;
-  top: 250px;
-  left: 50%;
-  transform: translateX(-50%);
-  border: 5px solid var(--main-text);
-  align-items: center;
-  justify-content: center;
-}
-
-.score-win {
-  background: hsla(140, 80%, 30%, 0.8);
-}
-
-.score-lose {
-  background: hsla(330, 80%, 30%, 0.8);
-}
-
-.score-text {
-  font-size: 46px;
-  font-weight: bolder;
-  color: var(--main-text);
-}
 
 .show {
   display: flex;
